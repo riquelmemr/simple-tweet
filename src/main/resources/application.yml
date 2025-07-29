@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: simpletweet
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: com.mysql.jdbc.Driver
+
+jwt:
+  private:
+    key: classpath:jwt/private.pem
+  public:
+    key: classpath:jwt/public.pem
