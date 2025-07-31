@@ -30,6 +30,6 @@ public class GlobalExceptionHandler {
                 "Model already exists",
                 ex.getMessage()
         );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }
