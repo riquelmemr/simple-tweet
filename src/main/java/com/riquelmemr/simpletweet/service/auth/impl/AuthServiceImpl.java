@@ -3,7 +3,6 @@ package com.riquelmemr.simpletweet.service.auth.impl;
 import com.riquelmemr.simpletweet.dto.LoginRequest;
 import com.riquelmemr.simpletweet.dto.LoginResponse;
 import com.riquelmemr.simpletweet.entities.User;
-import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.auth.AuthService;
@@ -13,6 +12,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.riquelmemr.simpletweet.utils.ObjectUtils.isNull;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -31,17 +32,17 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        try {
-            User user = userService.findByUsername(loginRequest.username());
+        User user = userService.findByUsername(loginRequest.username());
 
-            if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-                throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
-            }
-
-            String token = jwtUtils.generateJwtToken(user);
-            return userMapper.toLoginResponseDto(token, jwtUtils.getJwtExpiresIn());
-        } catch (EntityNotFoundException e) {
+        if (isNull(user)) {
             throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
         }
+
+        if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
+            throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
+        }
+
+        String token = jwtUtils.generateJwtToken(user);
+        return userMapper.toLoginResponseDto(token, jwtUtils.getJwtExpiresIn());
     }
 }
