@@ -1,7 +1,7 @@
 package com.riquelmemr.simpletweet.mapper;
 
-import com.riquelmemr.simpletweet.dto.CreateUserRequest;
-import com.riquelmemr.simpletweet.dto.LoginResponse;
+import com.riquelmemr.simpletweet.dto.request.CreateUserRequest;
+import com.riquelmemr.simpletweet.dto.response.LoginResponse;
 import com.riquelmemr.simpletweet.entities.User;
 import org.mapstruct.Mapper;
 

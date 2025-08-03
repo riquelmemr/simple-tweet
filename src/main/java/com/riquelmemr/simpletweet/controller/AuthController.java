@@ -1,7 +1,7 @@
 package com.riquelmemr.simpletweet.controller;
 
-import com.riquelmemr.simpletweet.dto.LoginRequest;
-import com.riquelmemr.simpletweet.dto.LoginResponse;
+import com.riquelmemr.simpletweet.dto.request.LoginRequest;
+import com.riquelmemr.simpletweet.dto.response.LoginResponse;
 import com.riquelmemr.simpletweet.repository.UserRepository;
 import com.riquelmemr.simpletweet.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

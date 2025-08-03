@@ -1,19 +1,23 @@
 package com.riquelmemr.simpletweet.service.user.impl;
 
-import com.riquelmemr.simpletweet.dto.CreateUserRequest;
 import com.riquelmemr.simpletweet.entities.Role;
 import com.riquelmemr.simpletweet.entities.User;
 import com.riquelmemr.simpletweet.exceptions.EntityAlreadyExistsException;
+import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
 import com.riquelmemr.simpletweet.repository.UserRepository;
+import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.riquelmemr.simpletweet.utils.ObjectUtils.isNotNull;
 
@@ -27,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Override
     @Transactional
@@ -44,14 +50,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(CreateUserRequest createUserRequest) {
-        User user = userMapper.toModel(createUserRequest);
-        create(user);
-    }
-
-    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElse(null);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(String id) {
+        return userRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id [" + id + "]"));
+    }
+
+    @Override
+    public User extractUserFromToken(JwtAuthenticationToken token) {
+        String userId = jwtUtils.getIdByToken(token);
+        return findById(userId);
     }
 }

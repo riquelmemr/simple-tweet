@@ -1,5 +1,6 @@
 package com.riquelmemr.simpletweet.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -23,6 +24,7 @@ public class User extends Item {
     )
     private Set<Role> roles;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Tweet> tweets = new HashSet<>();
 
