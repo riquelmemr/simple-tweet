@@ -1,9 +1,12 @@
 package com.riquelmemr.simpletweet.service.user.impl;
 
+import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
 import com.riquelmemr.simpletweet.entities.Role;
 import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.exceptions.EntityAlreadyExistsException;
 import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
+import com.riquelmemr.simpletweet.exceptions.ResourceNotAllowedException;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
 import com.riquelmemr.simpletweet.repository.UserRepository;
@@ -38,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void create(User user) {
         User userAlreadyExists = findByUsername(user.getUsername());
-        Role basicRole = roleRepository.findByName(Role.Values.BASIC.name());
+        Role basicRole = roleRepository.findByName(RoleEnum.BASIC.name().toUpperCase());
 
         if (isNotNull(userAlreadyExists)) {
             throw new EntityAlreadyExistsException("User already exists by username.");
@@ -50,13 +53,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public User update(String ownerId, UpdateUserRequest request, JwtAuthenticationToken token) {
+        User requester = extractUserFromToken(token);
+        User owner = findById(ownerId);
+
+        boolean isAdmin = requester.getRoles()
+                .stream()
+                .anyMatch(role -> role.getName().equals(RoleEnum.ADMIN.name()));
+
+        boolean isOwner = owner.getPk().equals(requester.getPk());
+
+        if (!isOwner && !isAdmin) {
+            throw new ResourceNotAllowedException("You do not have permission to update this user.");
+        }
+
+        updateUserData(request, owner);
+        userRepository.save(owner);
+        return owner;
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElse(null);
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -70,5 +94,12 @@ public class UserServiceImpl implements UserService {
     public User extractUserFromToken(JwtAuthenticationToken token) {
         String userId = jwtUtils.getIdByToken(token);
         return findById(userId);
+    }
+
+    private void updateUserData(UpdateUserRequest request, User owner) {
+        if (isNotNull(request.name())) owner.setName(request.name());
+        if (isNotNull(request.username())) owner.setUsername(request.username());
+        if (isNotNull(request.email())) owner.setEmail(request.email());
+        if (isNotNull(request.bio())) owner.setBio(request.bio());
     }
 }

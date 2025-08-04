@@ -1,10 +1,35 @@
 package com.riquelmemr.simpletweet.mapper;
 
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
+import com.riquelmemr.simpletweet.dto.response.FeedItemResponse;
+import com.riquelmemr.simpletweet.dto.response.FeedResponse;
 import com.riquelmemr.simpletweet.entities.Tweet;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TweetMapper {
     Tweet toModel(CreateTweetRequest createTweetRequest);
+
+    @Mapping(source = "author.username", target = "username")
+    @Mapping(source = "author.name", target = "name")
+    @Mapping(source = "pk", target = "id")
+    FeedItemResponse toFeedItemResponse(Tweet tweet);
+
+    default FeedResponse toFeedResponse(Page<Tweet> tweetPage) {
+        List<FeedItemResponse> items = tweetPage.getContent().stream()
+                .map(this::toFeedItemResponse)
+                .toList();
+
+        return new FeedResponse(
+                items,
+                tweetPage.getNumber(),
+                tweetPage.getSize(),
+                tweetPage.getTotalPages(),
+                tweetPage.getTotalElements()
+        );
+    }
 }

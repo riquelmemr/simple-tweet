@@ -26,19 +26,4 @@ public class Role {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public enum Values {
-        ADMIN(1),
-        BASIC(2);
-
-        final int id;
-
-        Values(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
 }

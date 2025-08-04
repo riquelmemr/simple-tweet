@@ -15,6 +15,7 @@ public class User extends Item {
     private String name;
     private String email;
     private String password;
+    private String bio;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -70,5 +71,13 @@ public class User extends Item {
 
     public Set<Tweet> getTweets() {
         return tweets;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

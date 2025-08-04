@@ -2,6 +2,7 @@ package com.riquelmemr.simpletweet.config;
 
 import com.riquelmemr.simpletweet.entities.Role;
 import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import jakarta.transaction.Transactional;
@@ -26,7 +27,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Role adminRole = roleRepository.findByName(Role.Values.ADMIN.name());
+        Role adminRole = roleRepository.findByName(RoleEnum.ADMIN.name());
         User adminUser = userService.findByUsername("admin");
 
         if (isNotNull(adminUser)) {

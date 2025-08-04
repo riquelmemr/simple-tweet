@@ -8,6 +8,7 @@ import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
@@ -40,5 +41,9 @@ public class TweetFacade {
     public List<Tweet> findByUserId(String userId) {
         User user = userService.findById(userId);
         return tweetService.findByUserId(user.getPk().toString());
+    }
+
+    public Page<Tweet> getFeed(int page, int pageSize) {
+        return tweetService.findAll(page, pageSize);
     }
 }
