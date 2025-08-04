@@ -38,9 +38,9 @@ public class TweetFacade {
         tweetService.deleteById(id, user);
     }
 
-    public void update(String id, UpdateTweetRequest request, JwtAuthenticationToken token) {
+    public Tweet update(String id, UpdateTweetRequest request, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
-        tweetService.update(id, request, user);
+        return tweetService.update(id, request, user);
     }
 
     public List<Tweet> findByUserId(String userId) {

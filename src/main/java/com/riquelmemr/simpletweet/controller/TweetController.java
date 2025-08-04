@@ -3,6 +3,7 @@ package com.riquelmemr.simpletweet.controller;
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
 import com.riquelmemr.simpletweet.dto.response.FeedResponse;
+import com.riquelmemr.simpletweet.dto.response.TweetDetailResponse;
 import com.riquelmemr.simpletweet.entities.Tweet;
 import com.riquelmemr.simpletweet.facade.TweetFacade;
 import com.riquelmemr.simpletweet.mapper.TweetMapper;
@@ -17,47 +18,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tweets")
-public class TweetController {
+public class TweetController extends BaseController {
     @Autowired
     private TweetFacade tweetFacade;
     @Autowired
     private TweetMapper tweetMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<Tweet> createTweet(
-            @RequestBody CreateTweetRequest request,
-            JwtAuthenticationToken token) {
+    public ResponseEntity<TweetDetailResponse> createTweet(@RequestBody CreateTweetRequest request, JwtAuthenticationToken token) {
         Tweet tweet = tweetFacade.create(request, token);
-        return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
+        return handleResponse(HttpStatus.CREATED, tweetMapper.toTweetDetailResponse(tweet));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTweet(
-            @PathVariable String id,
-            JwtAuthenticationToken token) {
+    public ResponseEntity<Void> deleteTweet(@PathVariable String id,
+                                            JwtAuthenticationToken token) {
         tweetFacade.delete(id, token);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Tweet> updateTweet(
-            @PathVariable String id,
-            @RequestBody UpdateTweetRequest request,
-            JwtAuthenticationToken token) {
-        tweetFacade.update(id, request, token);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TweetDetailResponse> updateTweet(@PathVariable String id,
+                                             @RequestBody UpdateTweetRequest request,
+                                             JwtAuthenticationToken token) {
+        Tweet tweet = tweetFacade.update(id, request, token);
+        return handleResponse(HttpStatus.OK, tweetMapper.toTweetDetailResponse(tweet));
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Tweet>> findByUser(@PathVariable String userId) {
+    public ResponseEntity<FeedResponse> findByUser(@PathVariable String userId) {
         List<Tweet> tweets = tweetFacade.findByUserId(userId);
-        return ResponseEntity.ok(tweets);
+        return handleResponse(HttpStatus.OK, tweetMapper.toFeedResponse(tweets));
     }
 
     @GetMapping("/feed")
     public ResponseEntity<FeedResponse> getFeed(@RequestParam(value = "page", defaultValue = "0") int page,
                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<Tweet> tweets = tweetFacade.getFeed(page, pageSize);
-        return ResponseEntity.ok(tweetMapper.toFeedResponse(tweets));
+        return handleResponse(HttpStatus.OK, tweetMapper.toFeedResponse(tweets));
     }
 }

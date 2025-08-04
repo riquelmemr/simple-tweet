@@ -29,11 +29,12 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public void update(String id, UpdateTweetRequest request, User user) {
+    public Tweet update(String id, UpdateTweetRequest request, User user) {
         Tweet tweet = findById(id);
         validatePermission(user, tweet, "update");
         updateTweetData(request, tweet);
         tweetRepository.save(tweet);
+        return tweet;
     }
 
     @Override

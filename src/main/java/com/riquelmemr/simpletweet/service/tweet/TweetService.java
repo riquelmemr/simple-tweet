@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TweetService {
     void create(Tweet tweet, User user);
-    void update(String id, UpdateTweetRequest tweet, User user);
+    Tweet update(String id, UpdateTweetRequest tweet, User user);
     void deleteById(String id, User user);
     Tweet findById(String id);
     List<Tweet> findByUserId(String userId);

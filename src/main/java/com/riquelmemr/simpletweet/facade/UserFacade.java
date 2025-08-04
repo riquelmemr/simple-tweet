@@ -18,9 +18,10 @@ public class UserFacade {
     @Autowired
     private UserMapper userMapper;
 
-    public void register(CreateUserRequest request) {
+    public User register(CreateUserRequest request) {
         User user = userMapper.toModel(request);
         userService.create(user);
+        return user;
     }
 
     public List<User> findAll() {

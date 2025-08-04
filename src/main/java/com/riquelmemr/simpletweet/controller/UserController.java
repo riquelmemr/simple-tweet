@@ -17,23 +17,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
     @Autowired
     private UserFacade userFacade;
     @Autowired
     private UserMapper userMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createUser(@RequestBody CreateUserRequest dto) {
-        userFacade.register(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest dto) {
+        User userCreated = userFacade.register(dto);
+        return handleResponse(HttpStatus.CREATED, userMapper.toUserResponseDto(userCreated));
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<List<User>> findAllUsers() {
+    public ResponseEntity<List<UserResponse>> findAllUsers() {
         List<User> users = userFacade.findAll();
-        return ResponseEntity.ok(users);
+        return handleResponse(HttpStatus.OK, userMapper.toListUserResponseDto(users));
     }
 
     @PutMapping("/update/{id}")
@@ -41,6 +41,6 @@ public class UserController {
                                                    @RequestBody UpdateUserRequest request,
                                                    JwtAuthenticationToken token) {
         User user = userFacade.update(id, request, token);
-        return ResponseEntity.ok(userMapper.toUserResponseDto(user));
+        return handleResponse(HttpStatus.OK, userMapper.toUserResponseDto(user));
     }
 }

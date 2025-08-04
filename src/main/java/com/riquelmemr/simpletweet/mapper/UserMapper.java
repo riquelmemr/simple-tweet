@@ -7,6 +7,8 @@ import com.riquelmemr.simpletweet.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     LoginResponse toLoginResponseDto(String accessToken, Long expiresIn);
@@ -14,4 +16,7 @@ public interface UserMapper {
 
     @Mapping(source = "pk", target = "id")
     UserResponse toUserResponseDto(User user);
+
+    @Mapping(source = "pk", target = "id")
+    List<UserResponse> toListUserResponseDto(List<User> users);
 }
