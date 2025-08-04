@@ -1,6 +1,7 @@
 package com.riquelmemr.simpletweet.facade;
 
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
+import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
 import com.riquelmemr.simpletweet.entities.Tweet;
 import com.riquelmemr.simpletweet.entities.User;
 import com.riquelmemr.simpletweet.mapper.TweetMapper;
@@ -28,14 +29,18 @@ public class TweetFacade {
     public Tweet create(CreateTweetRequest dto, JwtAuthenticationToken token) {
         Tweet tweet = tweetMapper.toModel(dto);
         User user = userService.extractUserFromToken(token);
-        tweet.setAuthor(user);
-        tweetService.create(tweet);
+        tweetService.create(tweet, user);
         return tweet;
     }
 
     public void delete(String id, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
         tweetService.deleteById(id, user);
+    }
+
+    public void update(String id, UpdateTweetRequest request, JwtAuthenticationToken token) {
+        User user = userService.extractUserFromToken(token);
+        tweetService.update(id, request, user);
     }
 
     public List<Tweet> findByUserId(String userId) {

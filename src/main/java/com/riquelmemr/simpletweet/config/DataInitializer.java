@@ -4,6 +4,7 @@ import com.riquelmemr.simpletweet.entities.Role;
 import com.riquelmemr.simpletweet.entities.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
+import com.riquelmemr.simpletweet.repository.UserRepository;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private UserService userService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -27,7 +30,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Role adminRole = roleRepository.findByName(RoleEnum.ADMIN.name());
+        Role adminRole = roleRepository.findByName(RoleEnum.ADMIN.name().toUpperCase());
         User adminUser = userService.findByUsername("admin");
 
         if (isNotNull(adminUser)) {
@@ -40,6 +43,6 @@ public class DataInitializer implements CommandLineRunner {
         user.setEmail("admin@admin.com");
         user.setPassword(passwordEncoder.encode("nimda"));
         user.setRoles(Set.of(adminRole));
-        userService.create(user);
+        userRepository.save(user);
     }
 }

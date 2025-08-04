@@ -1,6 +1,7 @@
 package com.riquelmemr.simpletweet.controller;
 
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
+import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
 import com.riquelmemr.simpletweet.dto.response.FeedResponse;
 import com.riquelmemr.simpletweet.entities.Tweet;
 import com.riquelmemr.simpletweet.facade.TweetFacade;
@@ -24,9 +25,9 @@ public class TweetController {
 
     @PostMapping("/create")
     public ResponseEntity<Tweet> createTweet(
-            @RequestBody CreateTweetRequest createTweetRequest,
+            @RequestBody CreateTweetRequest request,
             JwtAuthenticationToken token) {
-        Tweet tweet = tweetFacade.create(createTweetRequest, token);
+        Tweet tweet = tweetFacade.create(request, token);
         return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
     }
 
@@ -36,6 +37,15 @@ public class TweetController {
             JwtAuthenticationToken token) {
         tweetFacade.delete(id, token);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tweet> updateTweet(
+            @PathVariable String id,
+            @RequestBody UpdateTweetRequest request,
+            JwtAuthenticationToken token) {
+        tweetFacade.update(id, request, token);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{userId}")

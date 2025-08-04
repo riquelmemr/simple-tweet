@@ -39,7 +39,6 @@ public class AuthServiceImpl implements AuthService {
             }
 
             if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-                System.out.println("Bad credentials");
                 throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
             }
 
