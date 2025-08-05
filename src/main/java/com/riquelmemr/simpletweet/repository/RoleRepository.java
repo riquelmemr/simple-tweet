@@ -1,6 +1,6 @@
 package com.riquelmemr.simpletweet.repository;
 
-import com.riquelmemr.simpletweet.entities.Role;
+import com.riquelmemr.simpletweet.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

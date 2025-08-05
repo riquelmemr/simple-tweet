@@ -2,7 +2,7 @@ package com.riquelmemr.simpletweet.service.auth.impl;
 
 import com.riquelmemr.simpletweet.dto.request.LoginRequest;
 import com.riquelmemr.simpletweet.dto.response.LoginResponse;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.auth.AuthService;

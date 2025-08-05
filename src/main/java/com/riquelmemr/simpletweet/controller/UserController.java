@@ -3,12 +3,13 @@ package com.riquelmemr.simpletweet.controller;
 import com.riquelmemr.simpletweet.dto.request.CreateUserRequest;
 import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
 import com.riquelmemr.simpletweet.dto.response.UserResponse;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.facade.UserFacade;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class UserController extends BaseController {
         return handleResponse(HttpStatus.CREATED, userMapper.toUserResponseDto(userCreated));
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<List<UserResponse>> findAllUsers() {
         List<User> users = userFacade.findAll();
         return handleResponse(HttpStatus.OK, userMapper.toListUserResponseDto(users));

@@ -1,4 +1,4 @@
-package com.riquelmemr.simpletweet.entities;
+package com.riquelmemr.simpletweet.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

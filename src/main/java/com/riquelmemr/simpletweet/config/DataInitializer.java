@@ -1,7 +1,7 @@
 package com.riquelmemr.simpletweet.config;
 
-import com.riquelmemr.simpletweet.entities.Role;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Role;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
 import com.riquelmemr.simpletweet.repository.UserRepository;

@@ -4,7 +4,7 @@ import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
 import com.riquelmemr.simpletweet.dto.response.FeedItemResponse;
 import com.riquelmemr.simpletweet.dto.response.FeedResponse;
 import com.riquelmemr.simpletweet.dto.response.TweetDetailResponse;
-import com.riquelmemr.simpletweet.entities.Tweet;
+import com.riquelmemr.simpletweet.model.Tweet;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.data.domain.Page;
@@ -18,16 +18,16 @@ public interface TweetMapper {
     @Mapping(source = "author.username", target = "username")
     @Mapping(source = "author.name", target = "name")
     @Mapping(source = "pk", target = "id")
-    FeedItemResponse toFeedItemResponse(Tweet tweet);
+    FeedItemResponse toFeedItemResponseDto(Tweet tweet);
 
     @Mapping(source = "author.username", target = "username")
     @Mapping(source = "author.name", target = "name")
     @Mapping(source = "pk", target = "id")
-    TweetDetailResponse toTweetDetailResponse(Tweet tweet);
+    TweetDetailResponse toTweetDetailResponseDto(Tweet tweet);
 
-    default FeedResponse toFeedResponse(Page<Tweet> tweetPage) {
+    default FeedResponse toFeedResponseDto(Page<Tweet> tweetPage) {
         List<FeedItemResponse> items = tweetPage.getContent().stream()
-                .map(this::toFeedItemResponse)
+                .map(this::toFeedItemResponseDto)
                 .toList();
 
         return new FeedResponse(
@@ -39,9 +39,9 @@ public interface TweetMapper {
         );
     }
 
-    default FeedResponse toFeedResponse(List<Tweet> tweets) {
+    default FeedResponse toFeedResponseDto(List<Tweet> tweets) {
         List<FeedItemResponse> items = tweets.stream()
-                .map(this::toFeedItemResponse)
+                .map(this::toFeedItemResponseDto)
                 .toList();
 
         return new FeedResponse(

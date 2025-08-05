@@ -1,7 +1,7 @@
 package com.riquelmemr.simpletweet.service.user;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.List;

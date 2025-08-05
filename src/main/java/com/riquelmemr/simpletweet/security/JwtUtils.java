@@ -1,7 +1,7 @@
 package com.riquelmemr.simpletweet.security;
 
-import com.riquelmemr.simpletweet.entities.Role;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Role;
+import com.riquelmemr.simpletweet.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,17 +24,17 @@ public class JwtUtils {
 
     public JwtClaimsSet generateJwtClaimSet(User user) {
         Instant now = Instant.now();
-        String scope = user.getRoles()
+        List<String> authorities = user.getRoles()
                 .stream()
                 .map(Role::getName)
-                .collect(Collectors.joining(" "));
+                .toList();
 
         return JwtClaimsSet.builder()
                 .issuer("simple-tweet-application")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(jwtExpiresIn))
                 .subject(user.getPk().toString())
-                .claim("scope", scope)
+                .claim("authorities", authorities)
                 .build();
     }
 

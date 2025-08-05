@@ -1,8 +1,8 @@
 package com.riquelmemr.simpletweet.service.user.impl;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
-import com.riquelmemr.simpletweet.entities.Role;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Role;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.exceptions.EntityAlreadyExistsException;
 import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;

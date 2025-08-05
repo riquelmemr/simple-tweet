@@ -2,7 +2,7 @@ package com.riquelmemr.simpletweet.facade;
 
 import com.riquelmemr.simpletweet.dto.request.CreateUserRequest;
 import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

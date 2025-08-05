@@ -1,8 +1,8 @@
 package com.riquelmemr.simpletweet.service.tweet;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
-import com.riquelmemr.simpletweet.entities.Tweet;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Tweet;
+import com.riquelmemr.simpletweet.model.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

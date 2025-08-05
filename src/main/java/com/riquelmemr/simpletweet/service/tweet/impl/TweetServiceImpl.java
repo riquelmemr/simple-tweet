@@ -1,8 +1,8 @@
 package com.riquelmemr.simpletweet.service.tweet.impl;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
-import com.riquelmemr.simpletweet.entities.Tweet;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Tweet;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
 import com.riquelmemr.simpletweet.exceptions.ResourceNotAllowedException;

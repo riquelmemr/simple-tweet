@@ -3,7 +3,7 @@ package com.riquelmemr.simpletweet.mapper;
 import com.riquelmemr.simpletweet.dto.request.CreateUserRequest;
 import com.riquelmemr.simpletweet.dto.response.LoginResponse;
 import com.riquelmemr.simpletweet.dto.response.UserResponse;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

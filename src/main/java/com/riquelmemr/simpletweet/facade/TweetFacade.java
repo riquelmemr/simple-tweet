@@ -2,8 +2,8 @@ package com.riquelmemr.simpletweet.facade;
 
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
-import com.riquelmemr.simpletweet.entities.Tweet;
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.Tweet;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.mapper.TweetMapper;
 import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;

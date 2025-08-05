@@ -1,4 +1,4 @@
-package com.riquelmemr.simpletweet.entities;
+package com.riquelmemr.simpletweet.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

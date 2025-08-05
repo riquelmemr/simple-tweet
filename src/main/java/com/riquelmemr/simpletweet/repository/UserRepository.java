@@ -1,6 +1,6 @@
 package com.riquelmemr.simpletweet.repository;
 
-import com.riquelmemr.simpletweet.entities.User;
+import com.riquelmemr.simpletweet.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
