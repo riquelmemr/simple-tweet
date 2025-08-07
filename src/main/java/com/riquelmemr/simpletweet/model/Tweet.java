@@ -1,9 +1,9 @@
 package com.riquelmemr.simpletweet.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_tweet")
@@ -13,6 +13,9 @@ public class Tweet extends Item {
     @ManyToOne(optional = false)
     @JoinColumn(name = "author_id")
     private User author;
+
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Like> likes = new HashSet<>();
 
     public String getContent() {
         return content;
@@ -28,5 +31,9 @@ public class Tweet extends Item {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
     }
 }

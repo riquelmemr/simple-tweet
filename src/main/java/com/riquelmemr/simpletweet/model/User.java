@@ -29,6 +29,10 @@ public class User extends Item {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Tweet> tweets = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Like> likes = new HashSet<>();
+
     public String getUsername() {
         return username;
     }
@@ -71,6 +75,10 @@ public class User extends Item {
 
     public Set<Tweet> getTweets() {
         return tweets;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
     }
 
     public String getBio() {

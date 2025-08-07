@@ -30,19 +30,19 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserMapper userMapper;
 
-        @Override
-        public LoginResponse login(LoginRequest loginRequest) {
-            User user = userService.findByUsername(loginRequest.username());
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        User user = userService.findByUsername(loginRequest.username());
 
-            if (isNull(user)) {
-                throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
-            }
-
-            if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
-                throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
-            }
-
-            String token = jwtUtils.generateJwtToken(user);
-            return userMapper.toLoginResponseDto(token, jwtUtils.getJwtExpiresIn());
+        if (isNull(user)) {
+            throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
         }
+
+        if (!passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
+            throw new BadCredentialsException(BAD_CREDENTIALS_ERROR_MESSAGE);
+        }
+
+        String token = jwtUtils.generateJwtToken(user);
+        return userMapper.toLoginResponseDto(token, jwtUtils.getJwtExpiresIn());
+    }
 }
