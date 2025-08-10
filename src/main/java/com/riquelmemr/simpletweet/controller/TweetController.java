@@ -31,14 +31,14 @@ public class TweetController extends BaseController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTweet(@PathVariable String id,
+    public ResponseEntity<Void> deleteTweet(@PathVariable Long id,
                                             JwtAuthenticationToken token) {
         tweetFacade.delete(id, token);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<TweetDetailResponse> updateTweet(@PathVariable String id,
+    public ResponseEntity<TweetDetailResponse> updateTweet(@PathVariable Long id,
                                              @RequestBody UpdateTweetRequest request,
                                              JwtAuthenticationToken token) {
         Tweet tweet = tweetFacade.update(id, request, token);
@@ -46,7 +46,7 @@ public class TweetController extends BaseController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<FeedResponse> findByUser(@PathVariable String userId) {
+    public ResponseEntity<FeedResponse> findByUser(@PathVariable Long userId) {
         List<Tweet> tweets = tweetFacade.findByUserId(userId);
         return handleResponse(HttpStatus.OK, tweetMapper.toFeedResponseDto(tweets));
     }

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserService {
     void create(User user);
-    User update(String ownerId, UpdateUserRequest request, JwtAuthenticationToken token);
+    User update(Long ownerId, UpdateUserRequest request, JwtAuthenticationToken token);
     User findByUsername(String username);
-    User findById(String id);
+    User findById(Long id);
     List<User> findAll();
     User extractUserFromToken(JwtAuthenticationToken token);
 }

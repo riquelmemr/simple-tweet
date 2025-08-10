@@ -33,19 +33,19 @@ public class TweetFacade {
         return tweet;
     }
 
-    public void delete(String id, JwtAuthenticationToken token) {
+    public void delete(Long id, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
         tweetService.deleteById(id, user);
     }
 
-    public Tweet update(String id, UpdateTweetRequest request, JwtAuthenticationToken token) {
+    public Tweet update(Long id, UpdateTweetRequest request, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
         return tweetService.update(id, request, user);
     }
 
-    public List<Tweet> findByUserId(String userId) {
+    public List<Tweet> findByUserId(Long userId) {
         User user = userService.findById(userId);
-        return tweetService.findByUserId(user.getPk().toString());
+        return tweetService.findByUserId(user.getPk());
     }
 
     public Page<Tweet> getFeed(int page, int pageSize) {

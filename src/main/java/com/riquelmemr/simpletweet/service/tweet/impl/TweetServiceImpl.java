@@ -1,11 +1,11 @@
 package com.riquelmemr.simpletweet.service.tweet.impl;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
-import com.riquelmemr.simpletweet.model.Tweet;
-import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
 import com.riquelmemr.simpletweet.exceptions.ResourceNotAllowedException;
+import com.riquelmemr.simpletweet.model.Tweet;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.repository.TweetRepository;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class TweetServiceImpl implements TweetService {
@@ -29,7 +28,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public Tweet update(String id, UpdateTweetRequest request, User user) {
+    public Tweet update(Long id, UpdateTweetRequest request, User user) {
         Tweet tweet = findById(id);
         validatePermission(user, tweet, "update");
         updateTweetData(request, tweet);
@@ -38,21 +37,21 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public void deleteById(String id, User user) {
+    public void deleteById(Long id, User user) {
         Tweet tweet = findById(id);
         validatePermission(user, tweet, "delete");
-        tweetRepository.deleteById(UUID.fromString(id));
+        tweetRepository.deleteById(id);
     }
 
     @Override
-    public Tweet findById(String id) {
-        return tweetRepository.findById(UUID.fromString(id))
+    public Tweet findById(Long id) {
+        return tweetRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tweet not found with id [" + id + "]"));
     }
 
     @Override
-    public List<Tweet> findByUserId(String userId) {
-        return tweetRepository.findByAuthorPk(UUID.fromString(userId));
+    public List<Tweet> findByUserId(Long userId) {
+        return tweetRepository.findByAuthorPk(userId);
     }
 
     @Override

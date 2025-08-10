@@ -28,7 +28,7 @@ public class UserFacade {
         return userService.findAll();
     }
 
-    public User update(String ownerId, UpdateUserRequest request, JwtAuthenticationToken token) {
+    public User update(Long ownerId, UpdateUserRequest request, JwtAuthenticationToken token) {
         return userService.update(ownerId, request, token);
     }
 }

@@ -1,13 +1,13 @@
 package com.riquelmemr.simpletweet.service.user.impl;
 
 import com.riquelmemr.simpletweet.dto.request.UpdateUserRequest;
-import com.riquelmemr.simpletweet.model.Role;
-import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.enums.RoleEnum;
 import com.riquelmemr.simpletweet.exceptions.EntityAlreadyExistsException;
 import com.riquelmemr.simpletweet.exceptions.EntityNotFoundException;
 import com.riquelmemr.simpletweet.exceptions.ResourceNotAllowedException;
 import com.riquelmemr.simpletweet.mapper.UserMapper;
+import com.riquelmemr.simpletweet.model.Role;
+import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.repository.RoleRepository;
 import com.riquelmemr.simpletweet.repository.UserRepository;
 import com.riquelmemr.simpletweet.security.JwtUtils;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import static com.riquelmemr.simpletweet.utils.ObjectUtils.isNotNull;
 
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User update(String ownerId, UpdateUserRequest request, JwtAuthenticationToken token) {
+    public User update(Long ownerId, UpdateUserRequest request, JwtAuthenticationToken token) {
         User requester = extractUserFromToken(token);
         User owner = findById(ownerId);
 
@@ -85,15 +84,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(String id) {
-        return userRepository.findById(UUID.fromString(id))
+    public User findById(Long id) {
+        return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id [" + id + "]"));
     }
 
     @Override
     public User extractUserFromToken(JwtAuthenticationToken token) {
         String userId = jwtUtils.getIdByToken(token);
-        return findById(userId);
+        return findById(Long.parseLong(userId));
     }
 
     private void updateUserData(UpdateUserRequest request, User owner) {

@@ -8,14 +8,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
-import java.util.UUID;
 
 @MappedSuperclass
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID pk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pk;
 
     @UpdateTimestamp
     private Date modifiedTime;
@@ -23,11 +22,11 @@ public class Item {
     @CreationTimestamp
     private Date creationTime;
 
-    public UUID getPk() {
+    public Long getPk() {
         return pk;
     }
 
-    public void setPk(UUID pk) {
+    public void setPk(Long pk) {
         this.pk = pk;
     }
 

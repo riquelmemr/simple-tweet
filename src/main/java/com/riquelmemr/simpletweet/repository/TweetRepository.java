@@ -4,8 +4,7 @@ import com.riquelmemr.simpletweet.model.Tweet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface TweetRepository extends JpaRepository<Tweet, UUID> {
-    List<Tweet> findByAuthorPk(UUID authorId);
+public interface TweetRepository extends JpaRepository<Tweet, Long> {
+    List<Tweet> findByAuthorPk(Long authorId);
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface TweetService {
     void create(Tweet tweet, User user);
-    Tweet update(String id, UpdateTweetRequest tweet, User user);
-    void deleteById(String id, User user);
-    Tweet findById(String id);
-    List<Tweet> findByUserId(String userId);
+    Tweet update(Long id, UpdateTweetRequest tweet, User user);
+    void deleteById(Long id, User user);
+    Tweet findById(Long id);
+    List<Tweet> findByUserId(Long userId);
     Page<Tweet> findAll(int page, int pageSize);
 }

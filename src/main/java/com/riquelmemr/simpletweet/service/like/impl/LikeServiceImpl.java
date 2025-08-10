@@ -8,6 +8,8 @@ import com.riquelmemr.simpletweet.service.like.LikeService;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
 import com.riquelmemr.simpletweet.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,7 +24,7 @@ public class LikeServiceImpl implements LikeService {
     private LikeRepository likeRepository;
 
     @Override
-    public void createOrDelete(String tweetId, User user) {
+    public void createOrDelete(Long tweetId, User user) {
         Tweet tweet = tweetService.findById(tweetId);
 
         Optional<Like> existingLike = likeRepository.findByOwnerAndTweet(user, tweet);
@@ -41,5 +43,11 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public long countLikesForTweet(Tweet tweet) {
         return likeRepository.countByTweet(tweet);
+    }
+
+    @Override
+    public Page<Like> findByTweet(Long tweetId, int page, int pageSize) {
+        Tweet tweet = tweetService.findById(tweetId);
+        return likeRepository.findByTweet(tweet, PageRequest.of(page, pageSize));
     }
 }
