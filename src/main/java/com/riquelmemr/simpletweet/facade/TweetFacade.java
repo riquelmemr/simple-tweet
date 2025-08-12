@@ -27,9 +27,10 @@ public class TweetFacade {
     private JwtUtils jwtUtils;
 
     public Tweet create(CreateTweetRequest dto, JwtAuthenticationToken token) {
-        Tweet tweet = tweetMapper.toModel(dto);
         User user = userService.extractUserFromToken(token);
-        tweetService.create(tweet, user);
+        Tweet tweet = tweetMapper.toModel(dto);
+        tweet.setAuthor(user);
+        tweetService.create(tweet);
         return tweet;
     }
 

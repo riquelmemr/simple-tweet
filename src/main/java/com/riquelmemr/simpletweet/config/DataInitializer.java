@@ -33,10 +33,7 @@ public class DataInitializer implements CommandLineRunner {
         Role adminRole = roleRepository.findByName(RoleEnum.ADMIN.name().toUpperCase());
         User adminUser = userService.findByUsername("admin");
 
-        if (isNotNull(adminUser)) {
-            System.out.println("User [" + adminUser.getUsername() + "] already exists.");
-            return;
-        }
+        if (isNotNull(adminUser)) return;
 
         User user = new User();
         user.setUsername("admin");

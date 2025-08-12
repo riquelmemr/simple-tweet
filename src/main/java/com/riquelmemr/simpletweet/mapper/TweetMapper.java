@@ -6,6 +6,7 @@ import com.riquelmemr.simpletweet.dto.response.FeedResponse;
 import com.riquelmemr.simpletweet.dto.response.TweetDetailResponse;
 import com.riquelmemr.simpletweet.model.Like;
 import com.riquelmemr.simpletweet.model.Tweet;
+import com.riquelmemr.simpletweet.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,17 @@ public class TweetMapper {
 
         Tweet tweet = new Tweet();
         tweet.setContent(createTweetRequest.content());
+        return tweet;
+    }
+
+    public Tweet toModel(CreateTweetRequest createTweetRequest, User user) {
+        if (createTweetRequest == null) {
+            return null;
+        }
+
+        Tweet tweet = new Tweet();
+        tweet.setContent(createTweetRequest.content());
+        tweet.setAuthor(user);
         return tweet;
     }
 

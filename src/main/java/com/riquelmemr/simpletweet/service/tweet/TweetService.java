@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface TweetService {
-    void create(Tweet tweet, User user);
+    void create(Tweet tweet);
     Tweet update(Long id, UpdateTweetRequest tweet, User user);
     void deleteById(Long id, User user);
     Tweet findById(Long id);

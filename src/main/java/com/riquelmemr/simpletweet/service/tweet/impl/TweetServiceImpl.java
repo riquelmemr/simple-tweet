@@ -22,8 +22,7 @@ public class TweetServiceImpl implements TweetService {
     private TweetRepository tweetRepository;
 
     @Override
-    public void create(Tweet tweet, User user) {
-        tweet.setAuthor(user);
+    public void create(Tweet tweet) {
         tweetRepository.save(tweet);
     }
 
@@ -31,7 +30,7 @@ public class TweetServiceImpl implements TweetService {
     public Tweet update(Long id, UpdateTweetRequest request, User user) {
         Tweet tweet = findById(id);
         validatePermission(user, tweet, "update");
-        updateTweetData(request, tweet);
+        updateTweetContent(request, tweet);
         tweetRepository.save(tweet);
         return tweet;
     }
@@ -70,7 +69,7 @@ public class TweetServiceImpl implements TweetService {
         }
     }
 
-    private void updateTweetData(UpdateTweetRequest request, Tweet tweet) {
+    private void updateTweetContent(UpdateTweetRequest request, Tweet tweet) {
         tweet.setContent(request.content());
     }
 }
