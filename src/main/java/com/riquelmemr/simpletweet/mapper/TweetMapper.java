@@ -48,6 +48,7 @@ public class TweetMapper {
                 tweetAuthorUsername(tweet),
                 tweetAuthorName(tweet),
                 tweet.getLikes().size(),
+                tweet.getComments().size(),
                 tweet.getCreationTime()
         );
     }

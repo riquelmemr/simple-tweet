@@ -7,5 +7,6 @@ public record FeedItemResponse(Long id,
                                String username,
                                String name,
                                long likes,
+                               long comments,
                                Date creationTime) {
 }

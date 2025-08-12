@@ -17,6 +17,9 @@ public class Tweet extends Item {
     @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Like> likes = new HashSet<>();
 
+    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Like> comments = new HashSet<>();
+
     public String getContent() {
         return content;
     }
@@ -35,5 +38,9 @@ public class Tweet extends Item {
 
     public Set<Like> getLikes() {
         return likes;
+    }
+
+    public Set<Like> getComments() {
+        return comments;
     }
 }

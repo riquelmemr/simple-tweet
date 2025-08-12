@@ -10,8 +10,8 @@ import java.util.Set;
 public class Comment extends Item {
     private String content;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "tweet_id")
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "tweet_id", nullable = true)
     private Tweet tweet;
 
     @ManyToOne(optional = false)
