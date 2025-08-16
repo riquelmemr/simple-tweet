@@ -2,9 +2,11 @@ package com.riquelmemr.simpletweet.facade;
 
 import com.riquelmemr.simpletweet.dto.request.CreateTweetRequest;
 import com.riquelmemr.simpletweet.dto.request.UpdateTweetRequest;
+import com.riquelmemr.simpletweet.dto.response.FeedResponse;
+import com.riquelmemr.simpletweet.dto.response.TweetDetailResponse;
+import com.riquelmemr.simpletweet.mapper.TweetMapper;
 import com.riquelmemr.simpletweet.model.Tweet;
 import com.riquelmemr.simpletweet.model.User;
-import com.riquelmemr.simpletweet.mapper.TweetMapper;
 import com.riquelmemr.simpletweet.security.JwtUtils;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
 import com.riquelmemr.simpletweet.service.user.UserService;
@@ -26,12 +28,11 @@ public class TweetFacade {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public Tweet create(CreateTweetRequest dto, JwtAuthenticationToken token) {
+    public TweetDetailResponse create(CreateTweetRequest dto, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
-        Tweet tweet = tweetMapper.toModel(dto);
-        tweet.setAuthor(user);
+        Tweet tweet = tweetMapper.toModel(dto, user);
         tweetService.create(tweet);
-        return tweet;
+        return tweetMapper.toTweetDetailResponseDto(tweet);
     }
 
     public void delete(Long id, JwtAuthenticationToken token) {
@@ -39,17 +40,20 @@ public class TweetFacade {
         tweetService.deleteById(id, user);
     }
 
-    public Tweet update(Long id, UpdateTweetRequest request, JwtAuthenticationToken token) {
+    public TweetDetailResponse update(Long id, UpdateTweetRequest request, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
-        return tweetService.update(id, request, user);
+        Tweet tweet = tweetService.update(id, request, user);
+        return tweetMapper.toTweetDetailResponseDto(tweet);
     }
 
-    public List<Tweet> findByUserId(Long userId) {
+    public FeedResponse findByUserId(Long userId) {
         User user = userService.findById(userId);
-        return tweetService.findByUserId(user.getPk());
+        List<Tweet> tweets = tweetService.findByUserId(user.getPk());
+        return tweetMapper.toFeedResponseDto(tweets);
     }
 
-    public Page<Tweet> getFeed(int page, int pageSize) {
-        return tweetService.findAll(page, pageSize);
+    public FeedResponse getFeed(int page, int pageSize) {
+        Page<Tweet> tweets = tweetService.findAll(page, pageSize);
+        return tweetMapper.toFeedResponseDto(tweets);
     }
 }

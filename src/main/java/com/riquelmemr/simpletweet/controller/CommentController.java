@@ -18,19 +18,19 @@ public class CommentController extends BaseController {
     private CommentFacade commentFacade;
 
     @PostMapping("/{tweetId}/comment")
-    private ResponseEntity<Void> createComment(@PathVariable final Long tweetId,
+    private ResponseEntity<CommentResponse> createComment(@PathVariable final Long tweetId,
                                                @RequestBody final CreateCommentRequest dto,
                                                JwtAuthenticationToken token) {
-        commentFacade.create(tweetId, dto, token);
-        return handleResponse(HttpStatus.OK, null);
+        CommentResponse comment = commentFacade.create(tweetId, dto, token);
+        return handleResponse(HttpStatus.OK, comment);
     }
 
     @PostMapping("/comments/{commentId}/reply")
-    private ResponseEntity<Void> replyComment(@PathVariable final Long commentId,
+    private ResponseEntity<CommentResponse> replyComment(@PathVariable final Long commentId,
                                               @RequestBody final CreateCommentRequest dto,
                                               JwtAuthenticationToken token) {
-        commentFacade.reply(commentId, dto, token);
-        return handleResponse(HttpStatus.OK, null);
+        CommentResponse reply = commentFacade.reply(commentId, dto, token);
+        return handleResponse(HttpStatus.OK, reply);
     }
 
     @GetMapping("/{tweetId}/comments")

@@ -27,18 +27,20 @@ public class CommentFacade {
     @Autowired
     private CommentMapper commentMapper;
 
-    public void create(Long tweetId, CreateCommentRequest request, JwtAuthenticationToken token) {
+    public CommentResponse create(Long tweetId, CreateCommentRequest request, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
         Tweet tweet = tweetService.findById(tweetId);
         Comment comment = commentMapper.toModel(request, user, tweet);
         commentService.save(comment);
+        return commentMapper.toCommentResponse(comment);
     }
 
-    public void reply(Long commentId, CreateCommentRequest request, JwtAuthenticationToken token) {
+    public CommentResponse reply(Long commentId, CreateCommentRequest request, JwtAuthenticationToken token) {
         User user = userService.extractUserFromToken(token);
         Comment parentComment = commentService.findById(commentId);
         Comment reply = commentMapper.toModel(request, user, parentComment);
         commentService.save(reply);
+        return commentMapper.toCommentResponse(reply);
     }
 
     public List<CommentResponse> getCommentsByTweet(Long tweetId, int page, int pageSize) {
