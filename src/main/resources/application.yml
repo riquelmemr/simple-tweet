@@ -25,4 +25,4 @@ jwt:
     key: classpath:jwt/private.pem
   public:
     key: classpath:jwt/public.pem
-  expiration: 300
+  expiration: 3000

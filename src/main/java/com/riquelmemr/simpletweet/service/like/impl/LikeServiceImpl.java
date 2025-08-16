@@ -7,6 +7,7 @@ import com.riquelmemr.simpletweet.repository.LikeRepository;
 import com.riquelmemr.simpletweet.service.like.LikeService;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
 import com.riquelmemr.simpletweet.service.user.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ public class LikeServiceImpl implements LikeService {
     private LikeRepository likeRepository;
 
     @Override
+    @Transactional
     public void createOrDelete(Long tweetId, User user) {
         Tweet tweet = tweetService.findById(tweetId);
 

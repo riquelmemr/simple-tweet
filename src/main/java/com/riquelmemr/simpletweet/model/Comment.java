@@ -10,8 +10,8 @@ import java.util.Set;
 public class Comment extends Item {
     private String content;
 
-    @ManyToOne(optional = true)
-    @JoinColumn(name = "tweet_id", nullable = true)
+    @ManyToOne()
+    @JoinColumn(name = "tweet_id")
     private Tweet tweet;
 
     @ManyToOne(optional = false)
@@ -24,6 +24,9 @@ public class Comment extends Item {
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> replies = new HashSet<>();
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommentLike> likes = new HashSet<>();
 
     public String getContent() {
         return content;
@@ -63,5 +66,13 @@ public class Comment extends Item {
 
     public void setReplies(Set<Comment> replies) {
         this.replies = replies;
+    }
+
+    public Set<CommentLike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<CommentLike> likes) {
+        this.likes = likes;
     }
 }

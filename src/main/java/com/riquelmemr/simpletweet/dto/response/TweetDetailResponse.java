@@ -5,7 +5,7 @@ import com.riquelmemr.simpletweet.model.Like;
 import java.util.Date;
 import java.util.List;
 
-public record TweetDetailResponse(String id,
+public record TweetDetailResponse(Long id,
                                    String content,
                                    String username,
                                    String name,
