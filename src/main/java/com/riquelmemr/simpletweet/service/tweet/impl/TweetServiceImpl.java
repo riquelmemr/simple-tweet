@@ -8,6 +8,7 @@ import com.riquelmemr.simpletweet.model.Tweet;
 import com.riquelmemr.simpletweet.model.User;
 import com.riquelmemr.simpletweet.repository.TweetRepository;
 import com.riquelmemr.simpletweet.service.tweet.TweetService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +37,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id, User user) {
         Tweet tweet = findById(id);
         validatePermission(user, tweet, "delete");

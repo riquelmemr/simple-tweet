@@ -58,7 +58,7 @@ public class TweetMapper {
             return null;
         }
 
-        String id = tweet.getPk() != null ? tweet.getPk().toString() : null;
+        Long id = tweet.getPk();
         String content = tweet.getContent();
         String username = tweetAuthorUsername(tweet);
         String name = tweetAuthorName(tweet);

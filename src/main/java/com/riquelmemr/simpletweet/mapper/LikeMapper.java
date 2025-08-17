@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class LikeMapper {
     public LikeDetailResponse toLikeDetailResponseDto(Like like) {
-        return new LikeDetailResponse(like.getOwner().getUsername(), like.getOwner().getName());
+        return new LikeDetailResponse(like.getPk(), like.getOwner().getUsername(), like.getOwner().getName());
     }
 
     public List<LikeDetailResponse> toLikeDetailResponseListDto(Page<Like> likes) {

@@ -36,6 +36,7 @@ O **Simple Tweet API** foi criado como um projeto de estudo e prática de boas p
 - **MySQL**
 - **Docker**
 - **Maven** (gerenciamento de dependências)
+- **JUnit e Mockito**
 
 ---
 
@@ -82,3 +83,4 @@ O projeto segue a seguinte organização:
 - `Comment`
 - `Like`
 - `Role`
+- `CommentLike`

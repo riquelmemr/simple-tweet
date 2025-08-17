@@ -35,6 +35,7 @@ public class CommentMapper {
                 comment.getOwner().getUsername(),
                 comment.getOwner().getName(),
                 comment.getContent(),
+                comment.getLikes().size(),
                 toListCommentResponse(comment.getReplies())
         );
     }
